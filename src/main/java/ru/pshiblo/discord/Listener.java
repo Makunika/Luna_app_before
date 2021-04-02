@@ -7,14 +7,23 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 import ru.pshiblo.Config;
+import ru.pshiblo.youtube.WorkerYouTubeLiveChatInsert;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class Listener extends ListenerAdapter {
 
-    private boolean play = false;
-    private DateTime lastTime = new DateTime(10000);
+    private boolean play;
+    private DateTime lastTime;
+    private final Queue queue;
+
+    public Listener() {
+        queue = new Queue();
+        lastTime = new DateTime(10000);
+        play = false;
+    }
 
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
@@ -22,11 +31,9 @@ public class Listener extends ListenerAdapter {
         Message msg = event.getMessage();
         if (msg.getContentRaw().equals("!ping"))
         {
-            MessageChannel channel = event.getChannel();
-            channel.sendMessage("?play https://www.youtube.com/watch?v=3HrSVXP99kQ") /* => RestAction<Message> */
-                    .queue();
+            play("https://www.youtube.com/watch?v=3HrSVXP99kQ", new DateTime(new Date()));
         }
-        else if(msg.getContentRaw().startsWith("!connect ")) {
+        else if (msg.getContentRaw().startsWith("!connect ")) {
             String arg = msg.getContentRaw().substring("!connect ".length());
             List<VoiceChannel> channels = guild.getVoiceChannelsByName(arg, true);
             if (!channels.isEmpty()) {
@@ -39,8 +46,15 @@ public class Listener extends ListenerAdapter {
             }
 
         }
-        else if(msg.getContentRaw().startsWith("!duration ")) {
-            long duration = Long.parseLong(msg.getContentRaw().substring("!duration ".length())) + 500;
+        else if (msg.getContentRaw().startsWith("!duration ")) {
+            String[] split = msg.getContentRaw().substring("!duration ".length()).split("//");
+            long duration = Long.parseLong(split[0]) + 500;
+            String title = split[1];
+
+            new Thread(() -> {
+                WorkerYouTubeLiveChatInsert.insertMessage("Сейчас играет: " + title);
+            }).start();
+
             if (duration < Config.getInstance().getMaxTimeTrack()) {
                 play = true;
                 new Thread(() -> {
@@ -56,6 +70,10 @@ public class Listener extends ListenerAdapter {
             } else {
                 event.getChannel().sendMessage("?skip").queue();
             }
+        }
+        else if (msg.getContentRaw().startsWith("!notfound ")) {
+            String title = msg.getContentRaw().substring("!notfound ".length());
+            WorkerYouTubeLiveChatInsert.insertMessage("Трек " + title + " не найден");
         }
     }
 
@@ -79,4 +97,18 @@ public class Listener extends ListenerAdapter {
         }
         return false;
     }
+
+    public void stop() {
+        if (play) {
+            Config.getInstance().getMessageChannel().sendMessage("?skip").queue();
+            try {
+                Runtime.getRuntime().exec(Config.getInstance().getPath() + "\\SoundVolumeView.exe /Unmute Google");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            play = false;
+        }
+    }
+
+
 }

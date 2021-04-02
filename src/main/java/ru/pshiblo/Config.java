@@ -15,6 +15,7 @@ public class Config {
 
     private int maxTimeTrack;
     private String videoId;
+    private String liveChatId;
     private MessageChannel messageChannel;
     private String path;
 
@@ -67,5 +68,13 @@ public class Config {
                 ", messageChannel=" + messageChannel +
                 ", path='" + path + '\'' +
                 '}';
+    }
+
+    public String getLiveChatId() {
+        return liveChatId;
+    }
+
+    public void setLiveChatId(String liveChatId) {
+        this.liveChatId = liveChatId;
     }
 }

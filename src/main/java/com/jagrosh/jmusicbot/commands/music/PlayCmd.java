@@ -117,7 +117,7 @@ public class PlayCmd extends MusicCommand
                     +"** (`"+FormatUtil.formatTime(track.getDuration())+"`) "+(pos==0?"to begin playing":" to the queue at position "+pos));
             if(playlist==null || !event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_ADD_REACTION)) {
                 m.editMessage(addMsg).queue();
-                m.getChannel().sendMessage("!duration " + Long.toString(track.getDuration())).queue();
+                m.getChannel().sendMessage("!duration " + Long.toString(track.getDuration()) + "//" + track.getInfo().title).queue();
             }
             else
             {
@@ -194,10 +194,12 @@ public class PlayCmd extends MusicCommand
         @Override
         public void noMatches()
         {
-            if(ytsearch)
+            if(ytsearch) {
                 m.editMessage(FormatUtil.filter(event.getClient().getWarning()+" No results found for `"+event.getArgs()+"`.")).queue();
-            else
+                m.getChannel().sendMessage("!notfound " + event.getArgs()).queue();
+            } else {
                 bot.getPlayerManager().loadItemOrdered(event.getGuild(), "ytsearch:"+event.getArgs(), new ResultHandler(m,event,true));
+            }
         }
 
         @Override

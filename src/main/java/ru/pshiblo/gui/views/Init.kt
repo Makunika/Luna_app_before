@@ -2,7 +2,7 @@ package ru.pshiblo.gui.views
 
 import javafx.scene.control.TextField
 import ru.pshiblo.Config
-import ru.pshiblo.youtube.WorkerYouTube
+import ru.pshiblo.youtube.YouTubeInitializer
 import tornadofx.*
 
 class Init:Fragment("Настройки") {
@@ -31,7 +31,7 @@ class Init:Fragment("Настройки") {
                             Config.getInstance().videoId = videoId.text
                             Config.getInstance().maxTimeTrack = Integer.parseInt(maxTimeAudio.text)
                             println(Config.getInstance().toString())
-                            WorkerYouTube.go();
+                            YouTubeInitializer.go();
                             this@borderpane.add(text("Работает!"));
                             this.isDisable = true
                         }

@@ -25,6 +25,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.1stleg</groupId>
+            <artifactId>jnativehook</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>4.2.0_227</version>
@@ -119,6 +124,7 @@
             <artifactId>google-oauth-client-jetty</artifactId>
             <version>1.31.4</version>
         </dependency>
+
     </dependencies>
 
     <build>
