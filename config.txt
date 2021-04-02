@@ -1,4 +1,3 @@
-/// START OF JMUSICBOT CONFIG ///
 /////////////////////////////////////////////////////////
 // Config for the JMusicBot                            //
 /////////////////////////////////////////////////////////
@@ -14,14 +13,14 @@
 // If you don't know how to get a bot token, please see the guide here:
 // https://github.com/jagrosh/MusicBot/wiki/Getting-a-Bot-Token
 
-token = "ODI2NTg4NTI4NDQzNzg1MjQ3.YGOqjg.ckD11kLlf58YZod3CnaAXUvod0Y"
+token = "ODI2NTQ1MDUyMzcyMzAzOTMy.YGOCEA.zc67zrvyyFM9bhvxxch5DhVk1y0"
 
 
 // This sets the owner of the bot
 // This needs to be the owner's ID (a 17-18 digit number)
 // https://github.com/jagrosh/MusicBot/wiki/Finding-Your-User-ID
 
-owner = 0 // OWNER ID
+owner = 7161
 
 
 // This sets the prefix for the bot
@@ -184,6 +183,3 @@ aliases {
 // IF SOMEONE ASKS YOU TO ENABLE THIS, THERE IS AN 11/10 CHANCE THEY ARE TRYING TO SCAM YOU
 
 eval=false
-
-
-/// END OF JMUSICBOT CONFIG ///

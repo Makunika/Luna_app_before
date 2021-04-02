@@ -24,7 +24,6 @@ import com.jagrosh.jmusicbot.commands.general.*;
 import com.jagrosh.jmusicbot.commands.music.*;
 import com.jagrosh.jmusicbot.commands.owner.*;
 import com.jagrosh.jmusicbot.entities.Prompt;
-import com.jagrosh.jmusicbot.gui.GUI;
 import com.jagrosh.jmusicbot.settings.SettingsManager;
 import com.jagrosh.jmusicbot.utils.OtherUtil;
 import java.awt.Color;
@@ -50,24 +49,25 @@ public class JMusicBot
                                 Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
                                 Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
     public final static GatewayIntent[] INTENTS = {GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_VOICE_STATES};
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)
+    public static void init()
     {
         // startup log
         Logger log = LoggerFactory.getLogger("Startup");
         
         // create prompt to handle startup
-        Prompt prompt = new Prompt("JMusicBot", "Switching to nogui mode. You can manually start in nogui mode by including the -Dnogui=true flag.", 
-                "true".equalsIgnoreCase(System.getProperty("nogui", "false")));
+        Prompt prompt = new Prompt("JMusicBot", "Switching to nogui mode. You can manually start in nogui mode by including the -Dnogui=true flag.",
+                true);
         
         // get and check latest version
         String version = OtherUtil.checkVersion(prompt);
         
         // check for valid java version
-        if(!System.getProperty("java.vm.name").contains("64"))
-            prompt.alert(Prompt.Level.WARNING, "Java Version", "It appears that you may not be using a supported Java version. Please use 64-bit java.");
+        //if(!System.getProperty("java.vm.name").contains("64"))
+        //    prompt.alert(Prompt.Level.WARNING, "Java Version", "It appears that you may not be using a supported Java version. Please use 64-bit java.");
         
         // load config
         BotConfig config = new BotConfig(prompt);
@@ -149,22 +149,6 @@ public class JMusicBot
         }
         else
             cb.setActivity(config.getGame());
-        
-        if(!prompt.isNoGUI())
-        {
-            try 
-            {
-                GUI gui = new GUI(bot);
-                bot.setGUI(gui);
-                gui.init();
-            } 
-            catch(Exception e) 
-            {
-                log.error("Could not start GUI. If you are "
-                        + "running on a server or in a location where you cannot display a "
-                        + "window, please run in nogui mode using the -Dnogui=true flag.");
-            }
-        }
         
         log.info("Loaded config from " + config.getConfigLocation());
         

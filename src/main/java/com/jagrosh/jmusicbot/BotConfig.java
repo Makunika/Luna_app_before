@@ -77,6 +77,8 @@ public class BotConfig
             
             // set values
             token = config.getString("token");
+            //Music Maxim
+            token = "ODI2NTg4NTI4NDQzNzg1MjQ3.YGOqjg.ckD11kLlf58YZod3CnaAXUvod0Y";
             prefix = config.getString("prefix");
             altprefix = config.getString("altprefix");
             helpWord = config.getString("help");
@@ -89,6 +91,7 @@ public class BotConfig
             game = OtherUtil.parseGame(config.getString("game"));
             status = OtherUtil.parseStatus(config.getString("status"));
             stayInChannel = config.getBoolean("stayinchannel");
+            stayInChannel = true;
             songInGame = config.getBoolean("songinstatus");
             npImages = config.getBoolean("npimages");
             updatealerts = config.getBoolean("updatealerts");
