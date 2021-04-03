@@ -13,7 +13,9 @@ public class Config {
         return instance;
     }
 
-    private int maxTimeTrack;
+    private long maxTimeTrack;
+    private long timeInsert;
+    private long timeList;
     private String videoId;
     private String liveChatId;
     private MessageChannel messageChannel;
@@ -21,6 +23,8 @@ public class Config {
 
     private Config() {
         maxTimeTrack = 3 * 60 * 1000;
+        timeInsert = 4 * 60 * 1000;
+        timeList = 1 * 1000;
         try {
             path = new File(".").getCanonicalPath();
         }catch (IOException e) {
@@ -28,11 +32,11 @@ public class Config {
         }
     }
 
-    public int getMaxTimeTrack() {
+    public long getMaxTimeTrack() {
         return maxTimeTrack;
     }
 
-    public void setMaxTimeTrack(int maxTimeTrack) {
+    public void setMaxTimeTrack(long maxTimeTrack) {
         this.maxTimeTrack = maxTimeTrack;
     }
 
@@ -60,6 +64,30 @@ public class Config {
         this.path = path;
     }
 
+    public String getLiveChatId() {
+        return liveChatId;
+    }
+
+    public void setLiveChatId(String liveChatId) {
+        this.liveChatId = liveChatId;
+    }
+
+    public long getTimeInsert() {
+        return timeInsert;
+    }
+
+    public void setTimeInsert(long timeInsert) {
+        this.timeInsert = timeInsert;
+    }
+
+    public long getTimeList() {
+        return timeList;
+    }
+
+    public void setTimeList(long timeList) {
+        this.timeList = timeList;
+    }
+
     @Override
     public String toString() {
         return "Config{" +
@@ -68,13 +96,5 @@ public class Config {
                 ", messageChannel=" + messageChannel +
                 ", path='" + path + '\'' +
                 '}';
-    }
-
-    public String getLiveChatId() {
-        return liveChatId;
-    }
-
-    public void setLiveChatId(String liveChatId) {
-        this.liveChatId = liveChatId;
     }
 }

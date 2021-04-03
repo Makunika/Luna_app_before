@@ -18,7 +18,6 @@ class MyApp: App(MyView::class) {
         }
         JMusicBot.init()
         YouTubeBot.init()
-        GlobalKeyListener.init()
     }
 
 

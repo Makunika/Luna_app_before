@@ -5,16 +5,16 @@ import com.google.api.services.youtube.model.LiveChatMessage;
 import com.google.api.services.youtube.model.LiveChatMessageSnippet;
 import com.google.api.services.youtube.model.LiveChatTextMessageDetails;
 import ru.pshiblo.Config;
+import ru.pshiblo.gui.ConsoleOut;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.List;
 
 public class WorkerYouTubeLiveChatInsert implements Runnable {
 
     synchronized public static void insertMessage(String message) {
         try {
-            System.out.println("Отправляем сообщение :" + message);
+            ConsoleOut.println("Отправляем сообщение в чат: " + message);
             YouTube youtubeService = YouTubeInitializer.getYoutubeService();
             // Define the LiveChatMessage object, which will be uploaded as the request body.
             LiveChatMessage liveChatMessage = new LiveChatMessage();
@@ -31,10 +31,9 @@ public class WorkerYouTubeLiveChatInsert implements Runnable {
             // Define and execute the API request
             YouTube.LiveChatMessages.Insert request = youtubeService.liveChatMessages()
                     .insert(List.of("snippet"), liveChatMessage);
-            System.out.println(request);
             LiveChatMessage response = request.execute();
             System.out.println(response);
-        } catch (IOException | GeneralSecurityException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -44,7 +43,7 @@ public class WorkerYouTubeLiveChatInsert implements Runnable {
         while (true) {
             try {
                 insertMessage("У нас работает бот для музыки! Для этого введите /track <название трека/ссылка на музыку из youtube>");
-                Thread.sleep(4 * 60 * 1000);
+                Thread.sleep(Config.getInstance().getTimeInsert());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

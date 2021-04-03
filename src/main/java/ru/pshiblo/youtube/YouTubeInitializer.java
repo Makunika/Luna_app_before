@@ -12,6 +12,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.VideoListResponse;
 import ru.pshiblo.Config;
+import ru.pshiblo.youtube.listener.YouTubeHelloCommand;
+import ru.pshiblo.youtube.listener.YouTubeTrackCommand;
+import ru.pshiblo.youtube.listener.YouTubeUpdatedCommand;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +28,7 @@ public class YouTubeInitializer {
 
     private static final String CLIENT_SECRETS= "/client_secret.json";
     private static final Collection<String> SCOPES =
-            Collections.singletonList("https://www.googleapis.com/auth/youtube.readonly");
+            List.of("https://www.googleapis.com/auth/youtube");
 
     private static final String APPLICATION_NAME = "API code samples";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -61,7 +64,6 @@ public class YouTubeInitializer {
     public static YouTube getService() throws GeneralSecurityException, IOException {
         final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         Credential credential = authorize(httpTransport);
-
         return new YouTube.Builder(httpTransport, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
@@ -75,7 +77,13 @@ public class YouTubeInitializer {
             VideoListResponse response = requestVideos.setId(List.of(Config.getInstance().getVideoId())).execute();
             Config.getInstance().setLiveChatId(response.getItems().get(0).getLiveStreamingDetails().getActiveLiveChatId());
 
-            new Thread(new WorkerYouTubeLiveChatList()).start();
+            new Thread(new WorkerYouTubeLiveChatList(
+                    List.of(
+                            new YouTubeHelloCommand(),
+                            new YouTubeTrackCommand(),
+                            new YouTubeUpdatedCommand()
+                    )
+            )).start();
             new Thread(new WorkerYouTubeLiveChatInsert()).start();
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
