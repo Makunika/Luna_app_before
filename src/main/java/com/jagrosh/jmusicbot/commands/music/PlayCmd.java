@@ -65,7 +65,7 @@ public class PlayCmd extends MusicCommand
         if(event.getArgs().isEmpty() && event.getMessage().getAttachments().isEmpty())
         {
             AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
-            if(handler.getPlayer().getPlayingTrack()!=null && handler.getPlayer().isPaused())
+            if(handler.getPlayer().getPlayingTrack() != null && handler.getPlayer().isPaused())
             {
                 if(DJCommand.checkDJPermission(event))
                 {
@@ -87,6 +87,7 @@ public class PlayCmd extends MusicCommand
         String args = event.getArgs().startsWith("<") && event.getArgs().endsWith(">") 
                 ? event.getArgs().substring(1,event.getArgs().length()-1) 
                 : event.getArgs().isEmpty() ? event.getMessage().getAttachments().get(0).getUrl() : event.getArgs();
+
         event.reply(loadingEmoji+" Loading... `["+args+"]`", m -> bot.getPlayerManager().loadItemOrdered(event.getGuild(), args, new ResultHandler(m,event,false)));
     }
     
@@ -115,6 +116,7 @@ public class PlayCmd extends MusicCommand
             int pos = handler.addTrack(new QueuedTrack(track, event.getAuthor()))+1;
             String addMsg = FormatUtil.filter(event.getClient().getSuccess()+" Added **"+track.getInfo().title
                     +"** (`"+FormatUtil.formatTime(track.getDuration())+"`) "+(pos==0?"to begin playing":" to the queue at position "+pos));
+
             if(playlist==null || !event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_ADD_REACTION)) {
                 m.editMessage(addMsg).queue();
                 m.getChannel().sendMessage("!duration " + Long.toString(track.getDuration()) + "//" + track.getInfo().title).queue();
@@ -156,6 +158,7 @@ public class PlayCmd extends MusicCommand
         @Override
         public void trackLoaded(AudioTrack track)
         {
+
             loadSingle(track, null);
         }
 

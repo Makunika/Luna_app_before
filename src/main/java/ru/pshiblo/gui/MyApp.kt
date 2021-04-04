@@ -16,8 +16,6 @@ class MyApp: App(MyView::class) {
         stage.setOnCloseRequest {
             exitProcess(0);
         }
-        JMusicBot.init()
-        YouTubeBot.init()
     }
 
 

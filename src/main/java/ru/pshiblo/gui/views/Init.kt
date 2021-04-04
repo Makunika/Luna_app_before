@@ -1,11 +1,13 @@
 package ru.pshiblo.gui.views
 
+import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.Alert
 import javafx.scene.control.TextField
 import ru.pshiblo.Config
+import ru.pshiblo.audio.LocalAudio
 import ru.pshiblo.discord.YouTubeBot
 import ru.pshiblo.global.keypress.GlobalKeyListener
 import ru.pshiblo.youtube.YouTubeInitializer
@@ -18,6 +20,7 @@ class Init:Fragment("Настройки") {
     private val maxTimeAudio = SimpleLongProperty()
     private val timeInsert = SimpleLongProperty()
     private val timeList = SimpleLongProperty()
+    private val volume = SimpleDoubleProperty()
     private val globalListener = checkbox {
         isSelected = false
         this.selectedProperty()
@@ -38,12 +41,13 @@ class Init:Fragment("Настройки") {
         timeList.addListener(ChangeListener { observable, oldValue, newValue ->
             configYouTube.timeList = newValue as Long * 1000
         })
+
     }
 
     override val root = borderpane {
         center {
             form {
-                fieldset("Для начала введи в дискорде команду !connect <название канала>") {
+                fieldset( if (Config.getInstance().isDiscord) "Для начала введи в дискорде команду !connect <название канала>" else "Настройки") {
                     field("id трансляции (после v=)") {
                         add(videoId)
                     }
@@ -58,6 +62,14 @@ class Init:Fragment("Настройки") {
                     }
                     field("F12 для стоп музыки включать?") {
                         add(globalListener)
+                    }
+                    field("Громкость музыки локальной") {
+                        slider(0,100, 100) {
+                            this.valueProperty().addListener(ChangeListener { observable, oldValue, newValue ->
+                                LocalAudio.getPlayer().volume = newValue as Int
+                            })
+                            this.isDisable = Config.getInstance().isDiscord
+                        }
                     }
                     button("Начать") {
                         action {
@@ -78,7 +90,11 @@ class Init:Fragment("Настройки") {
                     }
                     button("Стоп музыка") {
                         action {
-                            YouTubeBot.getListener().stop()
+                            if (Config.getInstance().isDiscord) {
+                                YouTubeBot.getListener().stop()
+                            } else {
+                                LocalAudio.getPlayer().stopTrack()
+                            }
                         }
                     }
                 }
@@ -95,7 +111,7 @@ class Init:Fragment("Настройки") {
     }
 
     private fun validate(): Boolean {
-        if (configYouTube.messageChannel == null) {
+        if (configYouTube.messageChannel == null && Config.getInstance().isDiscord) {
             alert(Alert.AlertType.ERROR, "Discord", "Забыл написать в канале !connect <название канала>")
             return false
         }

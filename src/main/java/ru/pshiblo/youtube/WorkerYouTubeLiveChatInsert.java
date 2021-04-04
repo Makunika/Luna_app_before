@@ -38,6 +38,10 @@ public class WorkerYouTubeLiveChatInsert implements Runnable {
         }
     }
 
+    public static void insertMessageAsync(String message) {
+        new Thread(() -> insertMessage(message)).start();
+    }
+
     @Override
     public void run() {
         while (true) {

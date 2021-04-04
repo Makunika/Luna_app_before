@@ -4,6 +4,8 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
+import ru.pshiblo.Config;
+import ru.pshiblo.audio.LocalAudio;
 import ru.pshiblo.discord.YouTubeBot;
 
 public class GlobalKeyListener implements NativeKeyListener {
@@ -16,7 +18,11 @@ public class GlobalKeyListener implements NativeKeyListener {
     @Override
     public void nativeKeyPressed(NativeKeyEvent e) {
         if (e.getKeyCode() == NativeKeyEvent.VC_F12) {
-            YouTubeBot.getListener().stop();
+            if (Config.getInstance().isDiscord()) {
+                YouTubeBot.getListener().stop();
+            } else {
+                LocalAudio.getPlayer().stopTrack();
+            }
         }
     }
 

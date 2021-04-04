@@ -20,11 +20,13 @@ public class Config {
     private String liveChatId;
     private MessageChannel messageChannel;
     private String path;
+    private boolean isDiscord;
 
     private Config() {
         maxTimeTrack = 3 * 60 * 1000;
         timeInsert = 4 * 60 * 1000;
         timeList = 1 * 1000;
+        isDiscord = false;
         try {
             path = new File(".").getCanonicalPath();
         }catch (IOException e) {
@@ -86,6 +88,14 @@ public class Config {
 
     public void setTimeList(long timeList) {
         this.timeList = timeList;
+    }
+
+    public boolean isDiscord() {
+        return isDiscord;
+    }
+
+    public void setDiscord(boolean discord) {
+        isDiscord = discord;
     }
 
     @Override
