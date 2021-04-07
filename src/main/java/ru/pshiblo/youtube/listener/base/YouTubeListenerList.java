@@ -1,4 +1,4 @@
-package ru.pshiblo.youtube.listener;
+package ru.pshiblo.youtube.listener.base;
 
 import com.google.api.services.youtube.model.LiveChatMessage;
 

@@ -5,9 +5,9 @@ import ru.pshiblo.Config;
 import ru.pshiblo.audio.LocalAudio;
 import ru.pshiblo.discord.YouTubeBot;
 import ru.pshiblo.gui.ConsoleOut;
-import ru.pshiblo.gui.views.Console;
+import ru.pshiblo.youtube.listener.base.YouTubeListenerListCommand;
 
-public class YouTubeTrackCommand extends YouTubeListenerListCommand{
+public class YouTubeTrackCommand extends YouTubeListenerListCommand {
     @Override
     protected String getCommand() {
         return "/track";

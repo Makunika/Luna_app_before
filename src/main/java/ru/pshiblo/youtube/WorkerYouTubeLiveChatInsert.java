@@ -35,6 +35,7 @@ public class WorkerYouTubeLiveChatInsert implements Runnable {
             System.out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
+            ConsoleOut.alert(e.getMessage());
         }
     }
 
@@ -50,6 +51,7 @@ public class WorkerYouTubeLiveChatInsert implements Runnable {
                 Thread.sleep(Config.getInstance().getTimeInsert());
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                ConsoleOut.alert(e.getMessage());
             }
         }
     }

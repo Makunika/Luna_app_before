@@ -12,6 +12,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.VideoListResponse;
 import ru.pshiblo.Config;
+import ru.pshiblo.gui.ConsoleOut;
 import ru.pshiblo.youtube.listener.YouTubeHelloCommand;
 import ru.pshiblo.youtube.listener.YouTubeTrackCommand;
 import ru.pshiblo.youtube.listener.YouTubeUpdatedCommand;
@@ -87,6 +88,7 @@ public class YouTubeInitializer {
             new Thread(new WorkerYouTubeLiveChatInsert()).start();
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
+            ConsoleOut.alert(e.getMessage());
         }
     }
 

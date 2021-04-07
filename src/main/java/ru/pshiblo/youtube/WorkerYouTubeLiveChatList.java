@@ -3,10 +3,9 @@ package ru.pshiblo.youtube;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.LiveChatMessage;
 import com.google.api.services.youtube.model.LiveChatMessageListResponse;
-import com.google.api.services.youtube.model.VideoListResponse;
 import ru.pshiblo.Config;
-import ru.pshiblo.discord.YouTubeBot;
-import ru.pshiblo.youtube.listener.YouTubeListenerList;
+import ru.pshiblo.gui.ConsoleOut;
+import ru.pshiblo.youtube.listener.base.YouTubeListenerList;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,8 +24,7 @@ public class WorkerYouTubeLiveChatList implements Runnable {
             YouTube youtubeService = YouTubeInitializer.getYoutubeService();
             while (true) {
                 YouTube.LiveChatMessages.List request = youtubeService.liveChatMessages()
-                        .list(Config.getInstance().getLiveChatId(), List.of("id", "snippet", "authorDetails"));
-
+                        .list(Config.getInstance().getLiveChatId(), List.of("snippet"));
                 LiveChatMessageListResponse responseLiveChat = request.execute();
                 List<LiveChatMessage> messages = responseLiveChat.getItems();
 
@@ -38,6 +36,7 @@ public class WorkerYouTubeLiveChatList implements Runnable {
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            ConsoleOut.alert(e.getMessage());
         }
     }
 }

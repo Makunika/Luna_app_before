@@ -1,5 +1,7 @@
 package ru.pshiblo.gui;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 
 import java.io.PrintStream;
@@ -19,5 +21,9 @@ public class ConsoleOut {
 
     public static TextArea getTextArea() {
         return textArea;
+    }
+
+    public static void alert(String message) {
+        println(" [ALERT] " + message);
     }
 }

@@ -20,7 +20,6 @@ class Init:Fragment("Настройки") {
     private val maxTimeAudio = SimpleLongProperty()
     private val timeInsert = SimpleLongProperty()
     private val timeList = SimpleLongProperty()
-    private val volume = SimpleDoubleProperty()
     private val globalListener = checkbox {
         isSelected = false
         this.selectedProperty()
@@ -63,10 +62,11 @@ class Init:Fragment("Настройки") {
                     field("F12 для стоп музыки включать?") {
                         add(globalListener)
                     }
-                    field("Громкость музыки локальной") {
+                    field("Громкость музыки локальной: " ) {
                         slider(0,100, 100) {
                             this.valueProperty().addListener(ChangeListener { observable, oldValue, newValue ->
-                                LocalAudio.getPlayer().volume = newValue as Int
+                                LocalAudio.getPlayer().volume = newValue.toInt()
+                                this@field.text = "Громкость музыки локальной: ${newValue.toInt()}"
                             })
                             this.isDisable = Config.getInstance().isDiscord
                         }

@@ -25,7 +25,7 @@ public class Config {
     private Config() {
         maxTimeTrack = 3 * 60 * 1000;
         timeInsert = 4 * 60 * 1000;
-        timeList = 1 * 1000;
+        timeList = 20 * 1000;
         isDiscord = false;
         try {
             path = new File(".").getCanonicalPath();
@@ -60,10 +60,6 @@ public class Config {
 
     public String getPath() {
         return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public String getLiveChatId() {

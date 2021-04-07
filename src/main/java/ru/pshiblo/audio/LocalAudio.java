@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import ru.pshiblo.gui.ConsoleOut;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -30,9 +31,11 @@ public class LocalAudio {
 
     public static void play(String track) {
         if (tracks.peek() == null) {
+            ConsoleOut.println("Очередь пуста - запускаем трек");
             tracks.offer(track);
             playerManager.loadItem(track, new AudioLoadHandler(player, track));
         } else {
+            ConsoleOut.println("Очередь не пуста - трек записан в очередь");
             tracks.offer(track);
         }
     }
@@ -61,7 +64,9 @@ public class LocalAudio {
                 int chunkSize;
 
                 while ((chunkSize = stream.read(buffer)) >= 0) {
-                    line.write(buffer, 0, chunkSize);
+                    if (tracks.peek() != null) {
+                        line.write(buffer, 0, chunkSize);
+                    }
                 }
             }catch (LineUnavailableException | IOException e) {
                 e.printStackTrace();
