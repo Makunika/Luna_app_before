@@ -8,6 +8,8 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ConsoleOut {
 
@@ -21,8 +23,14 @@ public class ConsoleOut {
     }
 
     public static <T> void printList(Collection<T> collection, String msg) {
-        StringBuilder sb = new StringBuilder( msg + " (size = " + collection.size() + "): ");
+        StringBuilder sb = new StringBuilder(msg + " (size = " + collection.size() + "): ");
         collection.forEach(t -> sb.append(t.toString()).append(" | "));
+        println(sb.toString());
+    }
+
+    public static <T> void printList(Collection<T> collection, String msg, Function<T, String> handle) {
+        StringBuilder sb = new StringBuilder(msg + " (size = " + collection.size() + "): ");
+        collection.forEach(t -> sb.append(handle.apply(t)).append(" | "));
         println(sb.toString());
     }
 

@@ -113,10 +113,14 @@ public class Listener extends ListenerAdapter {
     }
 
     private void play(String track) {
+        ConsoleOut.println("play : track = " + track);
+        ConsoleOut.printList(queue, "Очередь музыки");
         Config.getInstance().getMessageChannel().sendMessage("?play " + track.split("///")[0]).queue();
     }
 
     public void stop() {
+        ConsoleOut.println("Stop : play = " + play);
+        ConsoleOut.printList(queue, "Очередь музыки");
         if (play) {
             Config.getInstance().getMessageChannel().sendMessage("?skip").queue();
             try {

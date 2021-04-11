@@ -24,12 +24,12 @@ public abstract class YouTubeListenerListCommand implements YouTubeListenerList 
                 if (liveChatMessage.getSnippet().getPublishedAt().getValue() <= lastMessageTime.getValue()) {
                     break;
                 }
-                ConsoleOut.println("Новое сообщение: "
-                        + messageText
-                        + ", Время: " + liveChatMessage.getSnippet().getPublishedAt().toStringRfc3339());
                 deque.offerFirst(liveChatMessage);
             }
         }
+
+        if (deque.size() != 0)
+            ConsoleOut.printList(deque, "Очередь команд", (t) -> t.getSnippet().getTextMessageDetails().getMessageText());
 
         while(deque.peekFirst() != null) {
             LiveChatMessage liveChatMessage = deque.pollFirst();
