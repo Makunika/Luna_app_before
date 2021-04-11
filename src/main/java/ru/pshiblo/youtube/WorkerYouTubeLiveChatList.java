@@ -28,10 +28,10 @@ public class WorkerYouTubeLiveChatList implements Runnable {
                 LiveChatMessageListResponse responseLiveChat = request.execute();
                 List<LiveChatMessage> messages = responseLiveChat.getItems();
 
+                ConsoleOut.println("Прочитано сообщений с чата: " + messages.size());
                 for (YouTubeListenerList listener : listeners) {
                     listener.handle(messages);
                 }
-
                 Thread.sleep(Config.getInstance().getTimeList());
             }
         } catch (IOException | InterruptedException e) {

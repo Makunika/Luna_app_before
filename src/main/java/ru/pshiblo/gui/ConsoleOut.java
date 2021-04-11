@@ -6,6 +6,7 @@ import javafx.scene.control.TextArea;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 
 public class ConsoleOut {
@@ -17,6 +18,12 @@ public class ConsoleOut {
     public static void println(String msg) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         out.println("[" + dateFormat.format(new Date()) + "] - " + msg);
+    }
+
+    public static <T> void printList(Collection<T> collection, String msg) {
+        StringBuilder sb = new StringBuilder( msg + " (size = " + collection.size() + "): ");
+        collection.forEach(t -> sb.append(t.toString()).append(" | "));
+        println(sb.toString());
     }
 
     public static TextArea getTextArea() {

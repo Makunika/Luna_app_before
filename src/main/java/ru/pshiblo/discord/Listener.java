@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.internal.StringUtil;
 import ru.pshiblo.Config;
+import ru.pshiblo.gui.ConsoleOut;
 import ru.pshiblo.youtube.WorkerYouTubeLiveChatInsert;
 
 import java.io.IOException;
@@ -52,9 +53,7 @@ public class Listener extends ListenerAdapter {
             long duration = Long.parseLong(split[0]) + 500;
             String title = split[1];
 
-            new Thread(() -> {
-                WorkerYouTubeLiveChatInsert.insertMessage("Сейчас играет: " + title);
-            }).start();
+            ConsoleOut.println("Сейчас играет: " + title);
 
             if (duration < Config.getInstance().getMaxTimeTrack()) {
                 play = true;

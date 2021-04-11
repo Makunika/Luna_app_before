@@ -37,6 +37,7 @@ public class LocalAudio {
         } else {
             ConsoleOut.println("Очередь не пуста - трек записан в очередь");
             tracks.offer(track);
+            ConsoleOut.printList(tracks, "Очередь музыки");
         }
     }
 

@@ -13,6 +13,6 @@ public class YouTubeUpdatedCommand extends YouTubeListenerListCommand {
 
     @Override
     protected void handleCommand(String arg, LiveChatMessage liveChatMessage) {
-        WorkerYouTubeLiveChatInsert.insertMessage(UpdatedCommand.getInstance().getAnswer());
+        WorkerYouTubeLiveChatInsert.insertMessageAsync(UpdatedCommand.getInstance().getAnswer());
     }
 }

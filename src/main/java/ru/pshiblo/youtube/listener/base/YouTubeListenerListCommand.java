@@ -41,7 +41,8 @@ public abstract class YouTubeListenerListCommand implements YouTubeListenerList 
             }
         }
 
-        lastMessageTime = liveChatMessageList.get(liveChatMessageList.size() - 1).getSnippet().getPublishedAt();
+
+        lastMessageTime = liveChatMessageList.size() == 0 ? lastMessageTime : liveChatMessageList.get(liveChatMessageList.size() - 1).getSnippet().getPublishedAt();
     }
 
 

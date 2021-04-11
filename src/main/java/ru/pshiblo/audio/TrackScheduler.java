@@ -37,12 +37,11 @@ public class TrackScheduler extends AudioEventAdapter {
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
         try {
-            ConsoleOut.println("Гугл хром замьютен");
+            ConsoleOut.println("Гугл хром замьютен, играет : " + track.getInfo().title);
             Runtime.getRuntime().exec(Config.getInstance().getPath() + "\\SoundVolumeView.exe /Mute Google");
         }catch (IOException e) {
             e.printStackTrace();
         }
-        WorkerYouTubeLiveChatInsert.insertMessageAsync("Сейчас играет: " + track.getInfo().title);
     }
 
     @Override

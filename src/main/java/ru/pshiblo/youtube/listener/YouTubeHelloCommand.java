@@ -12,6 +12,6 @@ public class YouTubeHelloCommand extends YouTubeListenerListCommand {
 
     @Override
     protected void handleCommand(String arg, LiveChatMessage liveChatMessage) {
-        WorkerYouTubeLiveChatInsert.insertMessage("Привет, " + liveChatMessage.getAuthorDetails().getDisplayName());
+        WorkerYouTubeLiveChatInsert.insertMessageAsync("Привет");
     }
 }
