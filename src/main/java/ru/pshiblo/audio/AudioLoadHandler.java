@@ -8,14 +8,18 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import ru.pshiblo.gui.ConsoleOut;
 import ru.pshiblo.youtube.WorkerYouTubeLiveChatInsert;
 
+import java.util.Queue;
+
 public class AudioLoadHandler implements AudioLoadResultHandler {
 
     private AudioPlayer player;
     private String track;
+    private Queue<String> tracks;
 
-    public AudioLoadHandler(AudioPlayer player, String track) {
+    public AudioLoadHandler(AudioPlayer player, String track, Queue<String> tracks) {
         this.player = player;
         this.track = track;
+        this.tracks = tracks;
     }
 
 
@@ -35,6 +39,8 @@ public class AudioLoadHandler implements AudioLoadResultHandler {
     public void noMatches() {
         ConsoleOut.println("Трек " + track + " не найден");
         WorkerYouTubeLiveChatInsert.insertMessageAsync("Трек " + track + " не найден");
+        tracks.removeIf((item) -> item.equals(track));
+        LocalAudio.playNext();
     }
 
     @Override

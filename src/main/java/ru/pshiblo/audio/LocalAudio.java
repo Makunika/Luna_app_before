@@ -33,11 +33,17 @@ public class LocalAudio {
         if (tracks.peek() == null) {
             ConsoleOut.println("Очередь пуста - запускаем трек");
             tracks.offer(track);
-            playerManager.loadItem(track, new AudioLoadHandler(player, track));
+            playerManager.loadItem(track, new AudioLoadHandler(player, track, tracks));
         } else {
             ConsoleOut.println("Очередь не пуста - трек записан в очередь");
             tracks.offer(track);
             ConsoleOut.printList(tracks, "Очередь музыки");
+        }
+    }
+
+    public static void playNext() {
+        if (tracks.peek() != null) {
+            playerManager.loadItem(tracks.peek(), new AudioLoadHandler(player, tracks.peek(), tracks));
         }
     }
 

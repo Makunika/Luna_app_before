@@ -19,7 +19,14 @@ public class YouTubeTrackCommand extends YouTubeListenerListCommand {
         if (Config.getInstance().isDiscord()) {
             YouTubeBot.getListener().addToQueue(arg);
         } else {
-            LocalAudio.play(arg);
+            if (!arg.isBlank()) {
+                if (arg.contains("http")) {
+                    LocalAudio.play(arg);
+                } else {
+                    LocalAudio.play("ytsearch: " + arg);
+                }
+            }
+
         }
 
     }

@@ -48,12 +48,12 @@ public class TrackScheduler extends AudioEventAdapter {
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         tracks.poll();
         if (tracks.peek() != null) {
-            audioManager.loadItem(tracks.peek(), new AudioLoadHandler(player, track.getIdentifier()));
+            audioManager.loadItem(tracks.peek(), new AudioLoadHandler(player, tracks.peek(), tracks));
         } else {
             try {
                 ConsoleOut.println("Гугл хром размьютен");
                 Runtime.getRuntime().exec(Config.getInstance().getPath() + "\\SoundVolumeView.exe /Unmute Google");
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
