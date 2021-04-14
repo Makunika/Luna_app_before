@@ -12,14 +12,12 @@ import java.util.Queue;
 
 public class AudioLoadHandler implements AudioLoadResultHandler {
 
-    private AudioPlayer player;
-    private String track;
-    private Queue<String> tracks;
+    private final AudioPlayer player;
+    private final String track;
 
-    public AudioLoadHandler(AudioPlayer player, String track, Queue<String> tracks) {
+    public AudioLoadHandler(AudioPlayer player, String track) {
         this.player = player;
         this.track = track;
-        this.tracks = tracks;
     }
 
 
@@ -39,8 +37,7 @@ public class AudioLoadHandler implements AudioLoadResultHandler {
     public void noMatches() {
         ConsoleOut.println("Трек " + track + " не найден");
         WorkerYouTubeLiveChatInsert.insertMessageAsync("Трек " + track + " не найден");
-        tracks.removeIf((item) -> item.equals(track));
-        LocalAudio.playNext();
+        LocalAudio.getInstance().playNextAndRemove(track);
     }
 
     @Override

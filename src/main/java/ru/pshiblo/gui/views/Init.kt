@@ -1,16 +1,14 @@
 package ru.pshiblo.gui.views
 
-import javafx.beans.property.SimpleDoubleProperty
-import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleLongProperty
-import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.Alert
 import javafx.scene.control.TextField
 import ru.pshiblo.Config
 import ru.pshiblo.audio.LocalAudio
-import ru.pshiblo.discord.YouTubeBot
+import ru.pshiblo.base.init.InitType
+import ru.pshiblo.base.init.Initializer
+import ru.pshiblo.discord.MusicExecutorBot
 import ru.pshiblo.global.keypress.GlobalKeyListener
-import ru.pshiblo.youtube.YouTubeInitializer
 import ru.pshiblo.youtube.listener.UpdatedCommand
 import tornadofx.*
 
@@ -65,7 +63,7 @@ class Init:Fragment("Настройки") {
                     field("Громкость музыки локальной: " ) {
                         slider(0,100, 100) {
                             this.valueProperty().addListener(ChangeListener { observable, oldValue, newValue ->
-                                LocalAudio.getPlayer().volume = newValue.toInt()
+                                LocalAudio.getInstance().player.volume = newValue.toInt()
                                 this@field.text = "Громкость музыки локальной: ${newValue.toInt()}"
                             })
                             this.isDisable = Config.getInstance().isDiscord
@@ -79,7 +77,7 @@ class Init:Fragment("Настройки") {
                                 }
                                 configYouTube.videoId = videoId.text
                                 println(Config.getInstance().toString())
-                                YouTubeInitializer.go();
+                                Initializer.init(InitType.YOUTUBE);
                                 this@borderpane.add(text("Работает!"));
                                 this.isDisable = true
                                 globalListener.isDisable = true
@@ -91,9 +89,9 @@ class Init:Fragment("Настройки") {
                     button("Стоп музыка") {
                         action {
                             if (Config.getInstance().isDiscord) {
-                                YouTubeBot.getListener().stop()
+                                MusicExecutorBot.getListener().stop()
                             } else {
-                                LocalAudio.getPlayer().stopTrack()
+                                LocalAudio.getInstance().player.stopTrack()
                             }
                         }
                     }

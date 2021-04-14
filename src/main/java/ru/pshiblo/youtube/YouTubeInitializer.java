@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class YouTubeInitializer {
@@ -78,14 +77,18 @@ public class YouTubeInitializer {
             VideoListResponse response = requestVideos.setId(List.of(Config.getInstance().getVideoId())).execute();
             Config.getInstance().setLiveChatId(response.getItems().get(0).getLiveStreamingDetails().getActiveLiveChatId());
 
-            new Thread(new WorkerYouTubeLiveChatList(
+            WorkerYouTubeLiveChatList liveChatList = new WorkerYouTubeLiveChatList(
                     List.of(
                             new YouTubeHelloCommand(),
                             new YouTubeTrackCommand(),
                             new YouTubeUpdatedCommand()
                     )
-            )).start();
-            new Thread(new WorkerYouTubeLiveChatInsert()).start();
+            );
+            liveChatList.start();
+
+            WorkerYouTubeLiveChatInsert liveChatInsert = new WorkerYouTubeLiveChatInsert();
+            liveChatInsert.start();
+
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
             ConsoleOut.alert(e.getMessage());

@@ -4,22 +4,24 @@ import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.LiveChatMessage;
 import com.google.api.services.youtube.model.LiveChatMessageListResponse;
 import ru.pshiblo.Config;
+import ru.pshiblo.base.ComponentThread;
 import ru.pshiblo.gui.ConsoleOut;
 import ru.pshiblo.youtube.listener.base.YouTubeListenerList;
 
 import java.io.IOException;
 import java.util.List;
 
-public class WorkerYouTubeLiveChatList implements Runnable {
+public class WorkerYouTubeLiveChatList extends ComponentThread {
 
     private final List<YouTubeListenerList> listeners;
 
     public WorkerYouTubeLiveChatList(List<YouTubeListenerList> listeners) {
+        super();
         this.listeners = listeners;
     }
 
     @Override
-    public void run() {
+    protected void runInThread() {
         try {
             YouTube youtubeService = YouTubeInitializer.getYoutubeService();
             while (true) {

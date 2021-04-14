@@ -5,12 +5,13 @@ import com.google.api.services.youtube.model.LiveChatMessage;
 import com.google.api.services.youtube.model.LiveChatMessageSnippet;
 import com.google.api.services.youtube.model.LiveChatTextMessageDetails;
 import ru.pshiblo.Config;
+import ru.pshiblo.base.ComponentThread;
 import ru.pshiblo.gui.ConsoleOut;
 
 import java.io.IOException;
 import java.util.List;
 
-public class WorkerYouTubeLiveChatInsert implements Runnable {
+public class WorkerYouTubeLiveChatInsert extends ComponentThread {
 
     synchronized public static void insertMessage(String message) {
         try {
@@ -44,7 +45,7 @@ public class WorkerYouTubeLiveChatInsert implements Runnable {
     }
 
     @Override
-    public void run() {
+    protected void runInThread() {
         while (true) {
             try {
                 insertMessage("У нас работает бот для музыки! Для этого введите /track <название трека/ссылка на музыку из youtube>");

@@ -6,18 +6,16 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
-import net.dv8tion.jda.api.managers.AudioManager;
 import ru.pshiblo.Config;
 import ru.pshiblo.gui.ConsoleOut;
-import ru.pshiblo.youtube.WorkerYouTubeLiveChatInsert;
 
 import java.io.IOException;
 import java.util.Queue;
 
 public class TrackScheduler extends AudioEventAdapter {
 
-    private Queue<String> tracks;
-    private AudioPlayerManager audioManager;
+    private final Queue<String> tracks;
+    private final AudioPlayerManager audioManager;
 
     public TrackScheduler(Queue<String> tracks, AudioPlayerManager audioManager) {
         this.tracks = tracks;
@@ -48,7 +46,7 @@ public class TrackScheduler extends AudioEventAdapter {
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         tracks.poll();
         if (tracks.peek() != null) {
-            audioManager.loadItem(tracks.peek(), new AudioLoadHandler(player, tracks.peek(), tracks));
+            audioManager.loadItem(tracks.peek(), new AudioLoadHandler(player, tracks.peek()));
         } else {
             try {
                 ConsoleOut.println("Гугл хром размьютен");

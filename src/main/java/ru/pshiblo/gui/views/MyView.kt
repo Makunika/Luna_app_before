@@ -1,10 +1,8 @@
 package ru.pshiblo.gui.views
 
-import com.jagrosh.jmusicbot.JMusicBot
-import javafx.scene.Parent
 import ru.pshiblo.Config
-import ru.pshiblo.audio.LocalAudio
-import ru.pshiblo.discord.YouTubeBot
+import ru.pshiblo.base.init.InitType
+import ru.pshiblo.base.init.Initializer
 import tornadofx.*
 
 class MyView: View("YouTube Chat") {
@@ -26,8 +24,7 @@ class MyView: View("YouTube Chat") {
                                  Config.getInstance().isDiscord = true
                                  this.isDisable = true
                                  this.text = "Загрузка... ботов"
-                                 JMusicBot.init()
-                                 YouTubeBot.init()
+                                 Initializer.init(InitType.DISCORD_BOT);
                                  updateRoot()
                              }
                          }
@@ -36,7 +33,7 @@ class MyView: View("YouTube Chat") {
                                  Config.getInstance().isDiscord = false
                                  this.isDisable = true
                                  this.text = "Загрузка... локальной музыки"
-                                 LocalAudio.init()
+                                 Initializer.init(InitType.LOCAL_AUDIO);
                                  updateRoot()
                              }
                          }

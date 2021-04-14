@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
 
-public class YouTubeBot {
+public class MusicExecutorBot {
 
     private static Listener listener;
 

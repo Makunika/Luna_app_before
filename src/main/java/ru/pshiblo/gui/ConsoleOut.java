@@ -20,6 +20,7 @@ public class ConsoleOut {
     public static void println(String msg) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         out.println("[" + dateFormat.format(new Date()) + "] - " + msg);
+        System.out.println("[" + dateFormat.format(new Date()) + "] - " + msg);
     }
 
     public static <T> void printList(Collection<T> collection, String msg) {
