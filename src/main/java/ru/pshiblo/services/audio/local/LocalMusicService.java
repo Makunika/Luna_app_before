@@ -1,4 +1,4 @@
-package ru.pshiblo.services.audio;
+package ru.pshiblo.services.audio.local;
 
 import com.sedmelluq.discord.lavaplayer.format.AudioDataFormat;
 import com.sedmelluq.discord.lavaplayer.format.AudioPlayerInputStream;
@@ -9,6 +9,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import ru.pshiblo.services.ServiceThread;
 import ru.pshiblo.gui.log.ConsoleOut;
 import ru.pshiblo.services.ServiceType;
+import ru.pshiblo.services.audio.TrackScheduler;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class LocalMusicService extends ServiceThread {
         player = playerManager.createPlayer();
         tracks = new ArrayDeque<>();
 
-        TrackScheduler trackScheduler = new TrackScheduler(tracks, playerManager);
+        TrackScheduler trackScheduler = new TrackScheduler(player);
         player.addListener(trackScheduler);
     }
 

@@ -1,4 +1,4 @@
-package ru.pshiblo.services.audio;
+package ru.pshiblo.services.audio.local;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;

@@ -3,8 +3,8 @@ package ru.pshiblo.gui.views
 import com.jagrosh.jmusicbot.DiscordMusicBot
 import ru.pshiblo.Config
 import ru.pshiblo.services.Context
-import ru.pshiblo.services.audio.LocalMusicService
-import ru.pshiblo.services.discord.DiscordHandlerBot
+import ru.pshiblo.services.audio.local.LocalMusicService
+import ru.pshiblo.services.audio.discord.DiscordHandlerBot
 import ru.pshiblo.services.http.HttpService
 import tornadofx.*
 

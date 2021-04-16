@@ -1,7 +1,6 @@
 package ru.pshiblo.services.audio;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -10,26 +9,17 @@ import ru.pshiblo.Config;
 import ru.pshiblo.gui.log.ConsoleOut;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class TrackScheduler extends AudioEventAdapter {
 
-    private final Queue<String> tracks;
-    private final AudioPlayerManager audioManager;
+    private final Queue<AudioTrack> tracks;
+    private final AudioPlayer player;
 
-    public TrackScheduler(Queue<String> tracks, AudioPlayerManager audioManager) {
-        this.tracks = tracks;
-        this.audioManager = audioManager;
-    }
-
-    @Override
-    public void onPlayerPause(AudioPlayer player) {
-        // Player was paused
-    }
-
-    @Override
-    public void onPlayerResume(AudioPlayer player) {
-        // Player was resumed
+    public TrackScheduler(AudioPlayer player) {
+        this.player = player;
+        this.tracks = new ArrayDeque<>();
     }
 
     @Override
@@ -44,9 +34,8 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        tracks.poll();
         if (tracks.peek() != null) {
-            audioManager.loadItem(tracks.peek(), new AudioLoadHandler(player, tracks.peek()));
+            nextTrack();
         } else {
             try {
                 ConsoleOut.println("Гугл хром размьютен");
@@ -64,15 +53,23 @@ public class TrackScheduler extends AudioEventAdapter {
         //                       clone of this back to your queue
     }
 
+    public void nextTrack() {
+        player.startTrack(tracks.poll(), false);
+    }
+
+    public void queue(AudioTrack track) {
+        if (!player.startTrack(track, true)) {
+            tracks.offer(track);
+        }
+    }
+
     @Override
     public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
         ConsoleOut.println("exp : " + exception.getMessage());
-        // An already playing track threw an exception (track end event will still be received separately)
     }
 
     @Override
     public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
         ConsoleOut.println("stuck");
-        // Audio track has been unable to provide us any audio, might want to just start a new track
     }
 }

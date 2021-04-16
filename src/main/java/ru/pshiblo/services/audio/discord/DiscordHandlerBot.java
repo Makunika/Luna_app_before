@@ -1,4 +1,4 @@
-package ru.pshiblo.services.discord;
+package ru.pshiblo.services.audio.discord;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

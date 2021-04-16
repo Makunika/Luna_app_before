@@ -1,7 +1,7 @@
 package ru.pshiblo.services;
 
-import ru.pshiblo.services.audio.LocalMusicService;
-import ru.pshiblo.services.discord.DiscordHandlerBot;
+import ru.pshiblo.services.audio.local.LocalMusicService;
+import ru.pshiblo.services.audio.discord.DiscordHandlerBot;
 
 import java.util.concurrent.ConcurrentHashMap;
 
