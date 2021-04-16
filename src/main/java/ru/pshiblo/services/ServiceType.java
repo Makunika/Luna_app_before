@@ -1,9 +1,7 @@
 package ru.pshiblo.services;
 
 public enum ServiceType {
-    AUDIO,
-    DISCORD_HANDLER,
-    DISCORD_MUSIC,
+    MUSIC,
     HTTP,
     KEYPRESS,
     YOUTUBE_LIST,

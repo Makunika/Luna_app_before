@@ -3,7 +3,7 @@ package ru.pshiblo.services.http;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import ru.pshiblo.Utils;
+import ru.pshiblo.services.Context;
 import ru.pshiblo.services.http.dto.CurrentTrack;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class CurrentTrackHandler implements HttpHandler {
 
         ObjectMapper objectMapper = new ObjectMapper();
         CurrentTrack currentTrack = new CurrentTrack();
-        currentTrack.setTrack(Utils.getCurrentTrack());
+        currentTrack.setTrack(Context.getMusicService().getPlayingTrack());
         String json = objectMapper.writeValueAsString(currentTrack);
 
 

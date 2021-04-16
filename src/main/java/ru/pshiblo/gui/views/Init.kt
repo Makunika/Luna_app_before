@@ -5,6 +5,7 @@ import javafx.scene.control.Alert
 import javafx.scene.control.TextField
 import ru.pshiblo.Config
 import ru.pshiblo.services.Context
+import ru.pshiblo.services.ServiceType
 import ru.pshiblo.services.keypress.GlobalKeyListenerService
 import ru.pshiblo.services.youtube.ChatListService
 import ru.pshiblo.services.youtube.ChatPostService
@@ -63,10 +64,9 @@ class Init:Fragment("Настройки") {
                     field("Громкость музыки локальной: " ) {
                         slider(0,100, 100) {
                             this.valueProperty().addListener(ChangeListener { observable, oldValue, newValue ->
-                                Context.getLocalAudioService().player.volume = newValue.toInt()
-                                this@field.text = "Громкость музыки локальной: ${newValue.toInt()}"
+                                Context.getMusicService().volume(newValue.toInt())
+                                this@field.text = "Громкость музыки: ${newValue.toInt()}"
                             })
-                            this.isDisable = Config.getInstance().isDiscord
                         }
                     }
                     button("Начать") {
@@ -91,13 +91,9 @@ class Init:Fragment("Настройки") {
                             }
                         }
                     }
-                    button("Стоп музыка") {
+                    button("Пропустить музыку") {
                         action {
-                            if (Config.getInstance().isDiscord) {
-                                Context.getDiscordHandlerService().listener.stop()
-                            } else {
-                                Context.getLocalAudioService().player.stopTrack()
-                            }
+                            Context.getMusicService().skip()
                         }
                     }
                 }
@@ -114,7 +110,7 @@ class Init:Fragment("Настройки") {
     }
 
     private fun validate(): Boolean {
-        if (configYouTube.messageChannel == null && Config.getInstance().isDiscord) {
+        if (Config.getInstance().isDiscord && Context.isInitService(ServiceType.MUSIC)) {
             alert(Alert.AlertType.ERROR, "Discord", "Забыл написать в канале !connect <название канала>")
             return false
         }

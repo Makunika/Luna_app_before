@@ -1,4 +1,4 @@
-package ru.pshiblo.services.audio.local;
+package ru.pshiblo.services.audio;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -8,36 +8,42 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import ru.pshiblo.gui.log.ConsoleOut;
 import ru.pshiblo.services.Context;
 import ru.pshiblo.services.ServiceType;
+import ru.pshiblo.services.audio.TrackScheduler;
 import ru.pshiblo.services.youtube.ChatPostService;
 
 public class AudioLoadHandler implements AudioLoadResultHandler {
 
-    private final AudioPlayer player;
     private final String track;
+    private final TrackScheduler scheduler;
 
-    public AudioLoadHandler(AudioPlayer player, String track) {
-        this.player = player;
+    public AudioLoadHandler(String track, TrackScheduler scheduler) {
         this.track = track;
+        this.scheduler = scheduler;
     }
 
 
     @Override
     public void trackLoaded(AudioTrack audioTrack) {
         ConsoleOut.println("Трек " + audioTrack.getInfo().title + " загружен");
-        player.playTrack(audioTrack);
+        scheduler.queue(audioTrack);
     }
 
     @Override
-    public void playlistLoaded(AudioPlaylist audioPlaylist) {
-        ConsoleOut.println("Треки " + audioPlaylist.getTracks().get(0).getInfo().title + " загружены");
-        player.playTrack(audioPlaylist.getTracks().get(0));
+    public void playlistLoaded(AudioPlaylist playlist) {
+        ConsoleOut.println("Треки " + playlist.getTracks().get(0).getInfo().title + " загружены");
+        AudioTrack firstTrack = playlist.getSelectedTrack();
+
+        if (firstTrack == null) {
+            firstTrack = playlist.getTracks().get(0);
+        }
+
+        scheduler.queue(firstTrack);
     }
 
     @Override
     public void noMatches() {
         ConsoleOut.println("Трек " + track + " не найден");
         ((ChatPostService) Context.getService(ServiceType.YOUTUBE_POST)).postMessage("Трек " + track + " не найден");
-        Context.getLocalAudioService().playNextAndRemove(track);
     }
 
     @Override

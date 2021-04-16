@@ -4,17 +4,11 @@ import com.jagrosh.jmusicbot.DiscordMusicBot
 import ru.pshiblo.Config
 import ru.pshiblo.services.Context
 import ru.pshiblo.services.audio.local.LocalMusicService
-import ru.pshiblo.services.audio.discord.DiscordHandlerBot
+import ru.pshiblo.services.audio.discord.DiscordMusicService
 import ru.pshiblo.services.http.HttpService
 import tornadofx.*
 
 class MyView: View("YouTube Chat") {
-
-    private val tb = tabpane {
-        tab<Init>()
-        tab<Console>()
-        tab<Chat>()
-    }
 
     override var root =  tabpane {
          tab("Настройки") {
@@ -27,8 +21,7 @@ class MyView: View("YouTube Chat") {
                                  Config.getInstance().isDiscord = true
                                  this.isDisable = true
                                  this.text = "Загрузка... ботов"
-                                 Context.addServiceAndStart(DiscordMusicBot())
-                                 Context.addServiceAndStart(DiscordHandlerBot())
+                                 Context.addServiceAndStart(DiscordMusicService())
                                  Context.addServiceAndStart(HttpService())
                                  updateRoot()
                              }

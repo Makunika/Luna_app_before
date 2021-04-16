@@ -30,11 +30,7 @@ public class GlobalKeyListenerService implements NativeKeyListener, Service {
     @Override
     public void nativeKeyPressed(NativeKeyEvent e) {
         if (e.getKeyCode() == NativeKeyEvent.VC_F12) {
-            if (Config.getInstance().isDiscord()) {
-                Context.getDiscordHandlerService().getListener().stop();
-            } else {
-                Context.getLocalAudioService().getPlayer().stopTrack();
-            }
+            Context.getMusicService().skip();
         }
     }
 

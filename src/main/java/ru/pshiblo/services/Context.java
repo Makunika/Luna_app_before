@@ -1,8 +1,5 @@
 package ru.pshiblo.services;
 
-import ru.pshiblo.services.audio.local.LocalMusicService;
-import ru.pshiblo.services.audio.discord.DiscordHandlerBot;
-
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Context {
@@ -32,6 +29,10 @@ public class Context {
         return service;
     }
 
+    public static void removeService(ServiceType serviceType) {
+        services.remove(serviceType);
+    }
+
     public static boolean isInitService(ServiceType serviceType) {
         try {
             return getService(serviceType).isInitializer();
@@ -52,12 +53,8 @@ public class Context {
         services.values().forEach((Service::shutdown));
     }
 
-    public static LocalMusicService getLocalAudioService() {
-        return ((LocalMusicService) getService(ServiceType.AUDIO));
-    }
-
-    public static DiscordHandlerBot getDiscordHandlerService() {
-        return ((DiscordHandlerBot) getService(ServiceType.DISCORD_HANDLER));
+    public static MusicService getMusicService() {
+        return ((MusicService) getService(ServiceType.MUSIC));
     }
 
 }

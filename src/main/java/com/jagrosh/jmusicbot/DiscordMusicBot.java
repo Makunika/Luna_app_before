@@ -60,7 +60,7 @@ public class DiscordMusicBot extends ServiceThread
 
     @Override
     public ServiceType getServiceType() {
-        return ServiceType.DISCORD_MUSIC;
+        return ServiceType.MUSIC;
     }
 
     @Override

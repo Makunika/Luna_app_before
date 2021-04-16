@@ -48,4 +48,15 @@ public class AudioFactory {
         }
     }
 
+    public void loadItemOrdered(Object o, String track, AudioLoadResultHandler handler) {
+        if (track.contains("http")) {
+            playerManager.loadItemOrdered(o, track, handler);
+        } else {
+            playerManager.loadItemOrdered(o, "ytsearch: " + track, handler);
+        }
+    }
+
+    public AudioPlayerManager getPlayerManager() {
+        return playerManager;
+    }
 }

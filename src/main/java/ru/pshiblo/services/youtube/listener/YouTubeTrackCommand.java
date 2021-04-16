@@ -15,18 +15,6 @@ public class YouTubeTrackCommand extends YouTubeListenerCommand {
     @Override
     protected void handleCommand(String arg, LiveChatMessage liveChatMessage) {
         ConsoleOut.println("Запускаем трек " + arg);
-        if (Config.getInstance().isDiscord()) {
-            Context.getDiscordHandlerService().getListener().addToQueue(arg);
-        } else {
-            if (!arg.isBlank()) {
-                if (arg.contains("http")) {
-                    Context.getLocalAudioService().play(arg);
-                } else {
-                    Context.getLocalAudioService().play("ytsearch: " + arg);
-                }
-            }
-
-        }
-
+        Context.getMusicService().play(arg);
     }
 }

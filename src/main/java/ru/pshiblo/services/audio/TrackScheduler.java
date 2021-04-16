@@ -34,7 +34,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        if (tracks.peek() != null) {
+        if (!queueIsEmpty()) {
             nextTrack();
         } else {
             try {
@@ -53,14 +53,29 @@ public class TrackScheduler extends AudioEventAdapter {
         //                       clone of this back to your queue
     }
 
-    public void nextTrack() {
-        player.startTrack(tracks.poll(), false);
+    private void nextTrack() {
+        player.playTrack(tracks.poll());
+        //player.startTrack(tracks.poll(), false);
+    }
+
+    public void skipTrack() {
+        player.stopTrack();
     }
 
     public void queue(AudioTrack track) {
-        if (!player.startTrack(track, true)) {
+        if (queueIsEmpty()) {
+            tracks.offer(track);
+            nextTrack();
+        } else {
             tracks.offer(track);
         }
+//        if (!player.startTrack(track, true)) {
+//            tracks.offer(track);
+//        }
+    }
+
+    public boolean queueIsEmpty() {
+        return tracks.isEmpty() && player.getPlayingTrack() == null;
     }
 
     @Override
