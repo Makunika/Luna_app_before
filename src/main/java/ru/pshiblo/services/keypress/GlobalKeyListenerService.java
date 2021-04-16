@@ -10,6 +10,10 @@ import ru.pshiblo.services.Context;
 import ru.pshiblo.services.Service;
 import ru.pshiblo.services.ServiceType;
 
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 public class GlobalKeyListenerService implements NativeKeyListener, Service {
 
     private boolean isInit;
@@ -58,6 +62,11 @@ public class GlobalKeyListenerService implements NativeKeyListener, Service {
             ConsoleOut.println(e.getMessage());
             return;
         }
+        LogManager.getLogManager().reset();
+
+        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+        logger.setLevel(Level.OFF);
+
         GlobalScreen.addNativeKeyListener(this);
         isInit = true;
     }
