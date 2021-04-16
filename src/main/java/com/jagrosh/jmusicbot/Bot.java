@@ -142,7 +142,6 @@ public class Bot
             });
             jda.shutdown();
         }
-        System.exit(0);
     }
 
     public void setJDA(JDA jda)

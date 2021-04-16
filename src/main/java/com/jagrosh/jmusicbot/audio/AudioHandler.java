@@ -15,7 +15,7 @@
  */
 package com.jagrosh.jmusicbot.audio;
 
-import com.jagrosh.jmusicbot.JMusicBot;
+import com.jagrosh.jmusicbot.DiscordMusicBot;
 import com.jagrosh.jmusicbot.playlist.PlaylistLoader.Playlist;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
@@ -225,7 +225,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
                 eb.setFooter("Source: " + track.getInfo().author, null);
 
             double progress = (double)audioPlayer.getPlayingTrack().getPosition()/track.getDuration();
-            eb.setDescription((audioPlayer.isPaused() ? JMusicBot.PAUSE_EMOJI : JMusicBot.PLAY_EMOJI)
+            eb.setDescription((audioPlayer.isPaused() ? DiscordMusicBot.PAUSE_EMOJI : DiscordMusicBot.PLAY_EMOJI)
                     + " "+FormatUtil.progressBar(progress)
                     + " `[" + FormatUtil.formatTime(track.getPosition()) + "/" + FormatUtil.formatTime(track.getDuration()) + "]` "
                     + FormatUtil.volumeIcon(audioPlayer.getVolume()));
@@ -242,7 +242,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
                 .setContent(FormatUtil.filter(manager.getBot().getConfig().getSuccess()+" **Now Playing...**"))
                 .setEmbed(new EmbedBuilder()
                 .setTitle("No music playing")
-                .setDescription(JMusicBot.STOP_EMOJI+" "+FormatUtil.progressBar(-1)+" "+FormatUtil.volumeIcon(audioPlayer.getVolume()))
+                .setDescription(DiscordMusicBot.STOP_EMOJI+" "+FormatUtil.progressBar(-1)+" "+FormatUtil.volumeIcon(audioPlayer.getVolume()))
                 .setColor(guild.getSelfMember().getColor())
                 .build()).build();
     }
@@ -257,11 +257,11 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             if(title==null || title.equals("Unknown Title"))
                 title = track.getInfo().uri;
             return "**"+title+"** ["+(userid==0 ? "autoplay" : "<@"+userid+">")+"]"
-                    + "\n" + (audioPlayer.isPaused() ? JMusicBot.PAUSE_EMOJI : JMusicBot.PLAY_EMOJI) + " "
+                    + "\n" + (audioPlayer.isPaused() ? DiscordMusicBot.PAUSE_EMOJI : DiscordMusicBot.PLAY_EMOJI) + " "
                     + "[" + FormatUtil.formatTime(track.getDuration()) + "] "
                     + FormatUtil.volumeIcon(audioPlayer.getVolume());
         }
-        else return "No music playing " + JMusicBot.STOP_EMOJI + " " + FormatUtil.volumeIcon(audioPlayer.getVolume());
+        else return "No music playing " + DiscordMusicBot.STOP_EMOJI + " " + FormatUtil.volumeIcon(audioPlayer.getVolume());
     }
     
     // Audio Send Handler methods

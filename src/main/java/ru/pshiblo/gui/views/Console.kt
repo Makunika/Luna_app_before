@@ -1,6 +1,6 @@
 package ru.pshiblo.gui.views
 
-import ru.pshiblo.gui.ConsoleOut
+import ru.pshiblo.gui.log.ConsoleOut
 import tornadofx.*
 
 class Console: Fragment("Вывод консоли") {

@@ -4,12 +4,14 @@ import javafx.beans.property.SimpleLongProperty
 import javafx.scene.control.Alert
 import javafx.scene.control.TextField
 import ru.pshiblo.Config
-import ru.pshiblo.audio.LocalAudio
-import ru.pshiblo.base.init.InitType
-import ru.pshiblo.base.init.Initializer
-import ru.pshiblo.discord.MusicExecutorBot
-import ru.pshiblo.global.keypress.GlobalKeyListener
-import ru.pshiblo.youtube.listener.UpdatedCommand
+import ru.pshiblo.services.audio.LocalMusicService
+import ru.pshiblo.services.Context
+import ru.pshiblo.services.discord.DiscordHandlerBot
+import ru.pshiblo.services.keypress.GlobalKeyListenerService
+import ru.pshiblo.services.youtube.ChatListService
+import ru.pshiblo.services.youtube.ChatPostService
+import ru.pshiblo.services.youtube.YouTubeAuth
+import ru.pshiblo.services.youtube.listener.UpdatedCommand
 import tornadofx.*
 
 class Init:Fragment("Настройки") {
@@ -63,7 +65,7 @@ class Init:Fragment("Настройки") {
                     field("Громкость музыки локальной: " ) {
                         slider(0,100, 100) {
                             this.valueProperty().addListener(ChangeListener { observable, oldValue, newValue ->
-                                LocalAudio.getInstance().player.volume = newValue.toInt()
+                                Context.getLocalAudioService().player.volume = newValue.toInt()
                                 this@field.text = "Громкость музыки локальной: ${newValue.toInt()}"
                             })
                             this.isDisable = Config.getInstance().isDiscord
@@ -73,11 +75,16 @@ class Init:Fragment("Настройки") {
                         action {
                             if (validate()) {
                                 if (globalListener.isSelected) {
-                                    GlobalKeyListener.init()
+                                    Context.addServiceAndStart(GlobalKeyListenerService())
                                 }
                                 configYouTube.videoId = videoId.text
                                 println(Config.getInstance().toString())
-                                Initializer.init(InitType.YOUTUBE);
+                                if (!YouTubeAuth.auth()) {
+                                    alert(Alert.AlertType.ERROR, "YouTube", "невалидный id трансляции")
+                                    return@action
+                                }
+                                Context.addServiceAndStart(ChatListService())
+                                Context.addServiceAndStart(ChatPostService())
                                 this@borderpane.add(text("Работает!"));
                                 this.isDisable = true
                                 globalListener.isDisable = true
@@ -89,9 +96,9 @@ class Init:Fragment("Настройки") {
                     button("Стоп музыка") {
                         action {
                             if (Config.getInstance().isDiscord) {
-                                MusicExecutorBot.getListener().stop()
+                                Context.getDiscordHandlerService().listener.stop()
                             } else {
-                                LocalAudio.getInstance().player.stopTrack()
+                                Context.getLocalAudioService().player.stopTrack()
                             }
                         }
                     }

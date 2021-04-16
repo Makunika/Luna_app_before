@@ -1,8 +1,11 @@
 package ru.pshiblo.gui.views
 
+import com.jagrosh.jmusicbot.DiscordMusicBot
 import ru.pshiblo.Config
-import ru.pshiblo.base.init.InitType
-import ru.pshiblo.base.init.Initializer
+import ru.pshiblo.services.Context
+import ru.pshiblo.services.audio.LocalMusicService
+import ru.pshiblo.services.discord.DiscordHandlerBot
+import ru.pshiblo.services.http.HttpService
 import tornadofx.*
 
 class MyView: View("YouTube Chat") {
@@ -24,7 +27,9 @@ class MyView: View("YouTube Chat") {
                                  Config.getInstance().isDiscord = true
                                  this.isDisable = true
                                  this.text = "Загрузка... ботов"
-                                 Initializer.init(InitType.DISCORD_BOT);
+                                 Context.addServiceAndStart(DiscordMusicBot())
+                                 Context.addServiceAndStart(DiscordHandlerBot())
+                                 Context.addServiceAndStart(HttpService())
                                  updateRoot()
                              }
                          }
@@ -33,7 +38,8 @@ class MyView: View("YouTube Chat") {
                                  Config.getInstance().isDiscord = false
                                  this.isDisable = true
                                  this.text = "Загрузка... локальной музыки"
-                                 Initializer.init(InitType.LOCAL_AUDIO);
+                                 Context.addServiceAndStart(LocalMusicService())
+                                 Context.addServiceAndStart(HttpService())
                                  updateRoot()
                              }
                          }

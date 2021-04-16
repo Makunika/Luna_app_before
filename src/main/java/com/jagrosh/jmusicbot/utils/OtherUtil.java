@@ -15,7 +15,7 @@
  */
 package com.jagrosh.jmusicbot.utils;
 
-import com.jagrosh.jmusicbot.JMusicBot;
+import com.jagrosh.jmusicbot.DiscordMusicBot;
 import com.jagrosh.jmusicbot.entities.Prompt;
 import java.io.*;
 import java.net.URISyntaxException;
@@ -58,7 +58,7 @@ public class OtherUtil
             String filename = path.substring(WINDOWS_INVALID_PATH.length());
             try
             {
-                path = new File(JMusicBot.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getPath() + File.separator + filename;
+                path = new File(DiscordMusicBot.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getPath() + File.separator + filename;
             }
             catch(URISyntaxException ex) {}
         }
@@ -169,8 +169,8 @@ public class OtherUtil
     
     public static String getCurrentVersion()
     {
-        if(JMusicBot.class.getPackage()!=null && JMusicBot.class.getPackage().getImplementationVersion()!=null)
-            return JMusicBot.class.getPackage().getImplementationVersion();
+        if(DiscordMusicBot.class.getPackage()!=null && DiscordMusicBot.class.getPackage().getImplementationVersion()!=null)
+            return DiscordMusicBot.class.getPackage().getImplementationVersion();
         else
             return getLatestVersion();
     }
