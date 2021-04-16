@@ -60,18 +60,12 @@
     <orderEntry type="library" name="Maven: net.iharder:base64:2.3.9" level="project" />
     <orderEntry type="library" name="Maven: com.sedmelluq:lavaplayer-natives-extra:1.3.13" level="project" />
     <orderEntry type="library" name="Maven: com.jagrosh:jda-utilities-command:3.0.5" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20160810" level="project" />
     <orderEntry type="library" name="Maven: com.jagrosh:jda-utilities-commons:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.jagrosh:jda-utilities-doc:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.jagrosh:jda-utilities-examples:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.jagrosh:jda-utilities-menu:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.jagrosh:jda-utilities-oauth2:3.0.5" level="project" />
-    <orderEntry type="library" name="Maven: com.jagrosh:JLyrics:0.4" level="project" />
-    <orderEntry type="library" name="Maven: org.json:json:20180813" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.2.3" level="project" />
-    <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.2.3" level="project" />
-    <orderEntry type="library" name="Maven: com.typesafe:config:1.3.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.4.30" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.4.30" level="project" />
     <orderEntry type="library" name="Maven: no.tornado:tornadofx:1.7.20" level="project" />
@@ -84,8 +78,6 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:11" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:11" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:11" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:11" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:11" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:11" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:11" level="project" />
     <orderEntry type="library" name="Maven: com.google.apis:google-api-services-youtube:v3-rev20210210-1.31.0" level="project" />

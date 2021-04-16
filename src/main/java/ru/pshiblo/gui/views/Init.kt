@@ -110,7 +110,7 @@ class Init:Fragment("Настройки") {
     }
 
     private fun validate(): Boolean {
-        if (Config.getInstance().isDiscord && Context.isInitService(ServiceType.MUSIC)) {
+        if (Config.getInstance().isDiscord && !Context.isInitService(ServiceType.MUSIC)) {
             alert(Alert.AlertType.ERROR, "Discord", "Забыл написать в канале !connect <название канала>")
             return false
         }

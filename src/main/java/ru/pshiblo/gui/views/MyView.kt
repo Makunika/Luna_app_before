@@ -1,6 +1,5 @@
 package ru.pshiblo.gui.views
 
-import com.jagrosh.jmusicbot.DiscordMusicBot
 import ru.pshiblo.Config
 import ru.pshiblo.services.Context
 import ru.pshiblo.services.audio.local.LocalMusicService

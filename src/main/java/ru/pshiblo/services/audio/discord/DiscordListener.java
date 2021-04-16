@@ -29,7 +29,6 @@ public class DiscordListener extends ListenerAdapter {
     private final TrackScheduler scheduler;
 
     public DiscordListener() {
-        AudioFactory.getInstance().setDiscordConfig();
         player = AudioFactory.getInstance().createAudioPlayer();
         scheduler = new TrackScheduler(player);
         player.addListener(scheduler);
@@ -54,7 +53,6 @@ public class DiscordListener extends ListenerAdapter {
                     messageChannel = event.getChannel();
 
                     isInit = true;
-                    Config.getInstance().setMessageChannel(event.getChannel());
                 } else {
                     event.getChannel().sendMessage("Такого канала не существует").queue();
                 }

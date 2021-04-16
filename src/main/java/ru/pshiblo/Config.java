@@ -1,9 +1,13 @@
 package ru.pshiblo;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
+import ru.pshiblo.property.ConfigProperties;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
 
 public class Config {
 
@@ -18,18 +22,39 @@ public class Config {
     private long timeList;
     private String videoId;
     private String liveChatId;
-    private MessageChannel messageChannel;
     private String path;
     private boolean isDiscord;
+    private String tokenDiscord;
+    private ConfigProperties property;
+
 
     private Config() {
-        maxTimeTrack = 3 * 60 * 1000;
-        timeInsert = 5 * 60 * 1000;
-        timeList = 20 * 1000;
-        isDiscord = false;
         try {
             path = new File(".").getCanonicalPath();
+            property = new ConfigProperties(path + "\\config.properties");
+
+            tokenDiscord = property.getProperty("tokenDiscord", null);
+            if (tokenDiscord == null) {
+                System.out.println("token discord is null!");
+            }
+
+            timeInsert = property.getLongProperty("timeInsert", 5 * 60 * 1000);
+            maxTimeTrack = property.getLongProperty("maxTimeTrack",3 * 60 * 1000);
+            timeList = property.getLongProperty("timeList",20 * 1000);
+            isDiscord = false;
+            System.out.println(this.toString());
         }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveConfig() {
+        try {
+            property.setProperty("timeInsert", Long.toString(timeInsert));
+            property.setProperty("timeList", Long.toString(timeList));
+            property.setProperty("maxTimeTrack", Long.toString(maxTimeTrack));
+            property.store(new FileOutputStream(path + "\\config.properties"), "by Pshiblo");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -48,14 +73,6 @@ public class Config {
 
     public void setVideoId(String videoId) {
         this.videoId = videoId;
-    }
-
-    public MessageChannel getMessageChannel() {
-        return messageChannel;
-    }
-
-    public void setMessageChannel(MessageChannel messageChannel) {
-        this.messageChannel = messageChannel;
     }
 
     public String getPath() {
@@ -94,13 +111,22 @@ public class Config {
         isDiscord = discord;
     }
 
+    public String getTokenDiscord() {
+        return tokenDiscord;
+    }
+
     @Override
     public String toString() {
         return "Config{" +
                 "maxTimeTrack=" + maxTimeTrack +
+                ", timeInsert=" + timeInsert +
+                ", timeList=" + timeList +
                 ", videoId='" + videoId + '\'' +
-                ", messageChannel=" + messageChannel +
+                ", liveChatId='" + liveChatId + '\'' +
                 ", path='" + path + '\'' +
+                ", isDiscord=" + isDiscord +
+                ", tokenDiscord='" + tokenDiscord + '\'' +
+                ", property=" + property +
                 '}';
     }
 }

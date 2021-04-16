@@ -37,6 +37,6 @@ public class ConsoleOut {
     }
 
     public static void alert(String message) {
-        println(" [ALERT] " + message);
+        println("[ALERT] " + message);
     }
 }

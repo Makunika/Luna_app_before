@@ -36,7 +36,7 @@ public class Context {
     public static boolean isInitService(ServiceType serviceType) {
         try {
             return getService(serviceType).isInitializer();
-        } catch (IllegalArgumentException e) {
+        } catch (Throwable e) {
             return false;
         }
     }

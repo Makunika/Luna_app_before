@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import ru.pshiblo.Config;
 import ru.pshiblo.gui.log.ConsoleOut;
 import ru.pshiblo.services.MusicService;
 import ru.pshiblo.services.ServiceThread;
@@ -44,10 +45,10 @@ public class DiscordMusicService extends ServiceThread implements MusicService {
     protected void runInThread() {
         try {
             listener = new DiscordListener();
-            jda = JDABuilder.createLight("ODI2NTQ1MDUyMzcyMzAzOTMy.YGOCEA.zc67zrvyyFM9bhvxxch5DhVk1y0", GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_VOICE_STATES)
+            jda = JDABuilder.create(Config.getInstance().getTokenDiscord(), GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_VOICE_STATES)
                     .addEventListeners(listener)
-                    .setActivity(Activity.listening("to jams"))
-                    .setStatus(OnlineStatus.DO_NOT_DISTURB)
+                    .setActivity(Activity.listening("aloha"))
+                    .setStatus(OnlineStatus.ONLINE)
                     .enableCache(CacheFlag.VOICE_STATE)
                     .build();
         } catch (LoginException e) {
